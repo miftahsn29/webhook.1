@@ -15,36 +15,22 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 
 app.get("/", (req, res) => {
-  res.json("Hello World!");
+  res.json('website a')
 });
-
-app.post("/login", (req, res) => {
-  //Simulasi data dari database
-  const username = "user";
-  const password = "123123";
-
-  // ln 30-44 contoh penerapan untuk mengganti if else
-
-  //return semua kondisi failed terlebih dahulu
-  //check if username is valid
-  if (req.body.username !== username) {
-    res.statusCode = 402
-    res.json({
-      status: "error, username not found",
-    });
-    return;
+app.post('/github-event', (req, res) => {
+  //validasi
+  if (req.body.secret !== 'secret123'){
+    return res.status(403).json({ error: "Invalid secret"})
   }
-  //check if password is valid
-  if (req.body.password !== password) {
-    res.statusCode = 403
-    res.json({
-      status: "error, wrong password",
-    });
-    return;
+  if (req.body.event == 'event-1'){
+    console.log ('incoming webhook 1')
+    return res.json()
   }
-
-  //return kondisi sukses
-  res.json({ status: "success" });
+  if (req.body.event == 'event-2'){
+    console.log ('incoming webhook 2')
+    return res.json()
+  }
+  
 });
 
 app.listen(port, () => {
